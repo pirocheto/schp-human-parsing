@@ -27,6 +27,10 @@ _CONFIGS = {
         "model_dir": ROOT / "schp-lip-20",
         "onnx_path": ROOT / "schp-lip-20" / "onnx" / "schp-lip-20.onnx",
     },
+    "pascal": {
+        "model_dir": ROOT / "schp-pascal-7",
+        "onnx_path": ROOT / "schp-pascal-7" / "onnx" / "schp-pascal-7.onnx",
+    },
 }
 
 IMAGE_PATH = str(ROOT / "images" / "image_0.jpg")
@@ -95,7 +99,7 @@ def benchmark_onnx(
 
 def main() -> None:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--dataset", choices=["atr", "lip"], default="atr")
+    parser.add_argument("--dataset", choices=["atr", "lip", "pascal"], default="atr")
     parser.add_argument("--image", default=IMAGE_PATH)
     parser.add_argument("--runs", type=int, default=N_RUNS)
     args = parser.parse_args()
@@ -136,7 +140,7 @@ def main() -> None:
     speedup = pt_mean / ort_mean
     print("\n" + "═" * 60)
     print(f"  {'Backend':<20} {'Latency':>12}  {'Size':>8}")
-    print(f"  {'-'*20} {'-'*12}  {'-'*8}")
+    print(f"  {'-' * 20} {'-' * 12}  {'-' * 8}")
     print(f"  {'Transformers (FP32)':<20} {pt_mean:7.1f} ms      {pt_size:>8}")
     print(f"  {'ONNX Runtime (FP32)':<20} {ort_mean:7.1f} ms      {ort_size:>8}")
     print(f"  {'Speedup':<20} {speedup:>7.2f}×")

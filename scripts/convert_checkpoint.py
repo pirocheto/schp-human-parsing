@@ -27,6 +27,7 @@ ROOT = Path(__file__).parent.parent
 _DATASETS = {
     "atr": {"output": "schp-atr-18"},
     "lip": {"output": "schp-lip-20"},
+    "pascal": {"output": "schp-pascal-7"},
 }
 
 _AUTO_MAP = {
@@ -122,13 +123,13 @@ if __name__ == "__main__":
         "--dataset",
         required=True,
         choices=list(_DATASETS),
-        help="Dataset variant: 'atr' (18 classes) or 'lip' (20 classes).",
+        help="Dataset variant: 'atr' (18 classes), 'lip' (20 classes), or 'pascal' (7 classes).",
     )
     parser.add_argument("--checkpoint", required=True, help="Path to the .pth file.")
     parser.add_argument(
         "--output",
         default=None,
-        help="Output directory (default: schp-atr-18 or schp-lip-20).",
+        help="Output directory (default: derived from dataset name).",
     )
     args = parser.parse_args()
 

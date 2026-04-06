@@ -37,6 +37,18 @@ _CONFIGS = {
         "onnx_dynamic": ROOT / "schp-lip-20" / "onnx" / "schp-lip-20-int8-dynamic.onnx",
         "onnx_static": ROOT / "schp-lip-20" / "onnx" / "schp-lip-20-int8-static.onnx",
     },
+    "pascal": {
+        "model_dir": ROOT / "schp-pascal-7",
+        "onnx_input": ROOT / "schp-pascal-7" / "onnx" / "schp-pascal-7.onnx",
+        "onnx_dynamic": ROOT
+        / "schp-pascal-7"
+        / "onnx"
+        / "schp-pascal-7-int8-dynamic.onnx",
+        "onnx_static": ROOT
+        / "schp-pascal-7"
+        / "onnx"
+        / "schp-pascal-7-int8-static.onnx",
+    },
 }
 
 
@@ -220,7 +232,7 @@ def verify(
 
 def main() -> None:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--dataset", choices=["atr", "lip"], default="atr")
+    parser.add_argument("--dataset", choices=["atr", "lip", "pascal"], default="atr")
     parser.add_argument("--mode", choices=["dynamic", "static"], default="static")
     parser.add_argument("--input", default=None, help="Override input ONNX path")
     parser.add_argument("--output", default=None, help="Override output ONNX path")

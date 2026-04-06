@@ -34,10 +34,19 @@ _CONFIGS = {
             "schp-lip-20-int8-static.onnx",
         ],
     },
+    "pascal": {
+        "repo_id": "pirocheto/schp-pascal-7",
+        "model_dir": ROOT / "schp-pascal-7",
+        "onnx_files": [
+            "schp-pascal-7.onnx",
+            "schp-pascal-7.onnx.data",
+            "schp-pascal-7-int8-static.onnx",
+        ],
+    },
 }
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--dataset", choices=["atr", "lip"], default="atr")
+parser.add_argument("--dataset", choices=["atr", "lip", "pascal"], default="atr")
 parser.add_argument("--private", action="store_true")
 parser.add_argument("--no-onnx", action="store_true")
 args = parser.parse_args()
