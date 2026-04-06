@@ -1,0 +1,21 @@
+[project]
+name = "human-parsing-schp"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = [
+    "datasets>=2.0",
+    "gdown>=5.2.1",
+    "ipykernel>=7.2.0",
+    "numpy>=2.4.4",
+    "onnx>=1.21.0",
+    "onnxruntime>=1.24.4",
+    "onnxscript>=0.6.2",
+    "Pillow>=9.0",
+    "rembg[cpu]>=2.0.74",
+    "scikit-learn>=1.8.0",
+    "torch>=2.11.0",
+    "torchvision>=0.26.0",
+    "transformers>=5.5.0",
+]
