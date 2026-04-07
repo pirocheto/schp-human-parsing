@@ -135,7 +135,7 @@ Optimized ONNX files are available in the `onnx/` subfolder of each model direct
 | LIP | `schp-lip-20.onnx` | ~257 MB | FP32, dynamic batch |
 | LIP | `schp-lip-20-int8-static.onnx` | ~66 MB | INT8, 99.09% pixel agreement |
 | Pascal | `schp-pascal-7.onnx` | ~257 MB | FP32, dynamic batch |
-| Pascal | `schp-pascal-7-int8-static.onnx` | ~66 MB | INT8 |
+| Pascal | `schp-pascal-7-int8-static.onnx` | ~66 MB | INT8, 99.77% pixel agreement |
 
 ```python
 import onnxruntime as ort

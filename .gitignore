@@ -14,3 +14,7 @@ wheels/
 
 checkpoints/
 images/
+
+outputs/
+
+.DS_Store
