@@ -12,24 +12,6 @@ Three checkpoints are available, each targeting a different dataset and granular
 
 ---
 
-## Table of Contents
-
-- [Overview](#overview)
-- [Models](#models)
-  - [ATR — 18 classes](#atr--18-classes)
-  - [LIP — 20 classes](#lip--20-classes)
-  - [Pascal Person Part — 7 classes](#pascal-person-part--7-classes)
-- [Installation](#installation)
-- [Quick Start](#quick-start)
-  - [PyTorch](#pytorch)
-  - [ONNX Runtime](#onnx-runtime)
-- [Scripts](#scripts)
-- [Performance](#performance)
-- [Project Structure](#project-structure)
-- [Citation](#citation)
-
----
-
 ## Overview
 
 **SCHP** is a state-of-the-art human parsing architecture based on a **ResNet-101** backbone with a self-correction mechanism. It produces three outputs per forward pass:
@@ -40,7 +22,7 @@ Three checkpoints are available, each targeting a different dataset and granular
 | `parsing_logits` | `(B, C, H, W)` | Refined parsing logits |
 | `edge_logits` | `(B, 1 or 2, H, W)` | Edge prediction logits |
 
-**Use cases:**
+**Example use cases:**
 - 🎨 **Outfit palette extraction** — mask each clothing region then cluster colors per garment
 - 🏷️ **Product tagging for e-commerce** — automatically label photos with clothing categories
 - 👚 **Virtual try-on pre-processing** — generate garment masks for VITON / LaDI-VTON
@@ -97,11 +79,8 @@ Trained on the **Pascal Person Part** dataset (3 000+ images, coarse body parts)
 ```bash
 git clone https://github.com/pirocheto/schp-human-parsing
 cd schp-human-parsing
-python -m venv .venv && source .venv/bin/activate
-pip install -e .
+uv sync
 ```
-
-> Requires Python ≥ 3.11 and PyTorch ≥ 2.0.
 
 ---
 
@@ -267,40 +246,6 @@ Benchmarked on CPU (16-core, `intra_op_num_threads=8`):
 | PyTorch FP32 | ~360 ms | 1× | 256 MB |
 | ONNX FP32 | ~243 ms | 1.5× | 257 MB |
 | ONNX INT8 static | ~189 ms | **1.9×** | **66 MB** |
-
----
-
-## Project Structure
-
-```
-schp-human-parsing/
-├── schp-atr-18/              # ATR model (18 classes)
-│   ├── config.json
-│   ├── configuration_schp.py
-│   ├── image_processing_schp.py
-│   ├── modeling_schp.py
-│   ├── model.safetensors
-│   ├── preprocessor_config.json
-│   └── onnx/
-│       ├── schp-atr-18.onnx
-│       └── schp-atr-18-int8-static.onnx
-├── schp-lip-20/              # LIP model (20 classes)
-├── schp-pascal-7/            # Pascal Person Part model (7 classes)
-├── checkpoints/              # Original .pth weights
-├── images/                   # Sample images
-├── scripts/
-│   ├── convert_checkpoint.py # .pth → Transformers model dir
-│   ├── export_onnx.py        # PyTorch → ONNX
-│   ├── quantize_onnx.py      # ONNX FP32 → INT8
-│   ├── benchmark.py          # PyTorch vs ONNX speed comparison
-│   ├── test_schp.py          # Smoke test (PyTorch)
-│   ├── test_onnx.py          # Smoke test (ONNX)
-│   ├── download_checkpoints.py
-│   ├── download_images.py
-│   └── push_to_hub.py        # Upload to Hugging Face Hub
-├── Self-Correction-Human-Parsing/  # Original upstream repo
-└── pyproject.toml
-```
 
 ---
 
