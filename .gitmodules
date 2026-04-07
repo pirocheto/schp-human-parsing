@@ -1,3 +1,12 @@
 [submodule "Self-Correction-Human-Parsing"]
 	path = Self-Correction-Human-Parsing
 	url = https://github.com/PeikeLi/Self-Correction-Human-Parsing
+[submodule "schp-atr-18"]
+	path = schp-atr-18
+	url = https://huggingface.co/pirocheto/schp-atr-18
+[submodule "schp-lip-20"]
+	path = schp-lip-20
+	url = https://huggingface.co/pirocheto/schp-lip-20
+[submodule "schp-pascal-7"]
+	path = schp-pascal-7
+	url = https://huggingface.co/pirocheto/schp-pascal-7
