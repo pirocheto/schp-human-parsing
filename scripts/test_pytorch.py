@@ -1,10 +1,13 @@
 """
-test_schp.py — Smoke test using the Auto API (same as from the Hub).
+test_pytorch.py — Smoke test using the Auto API (PyTorch backend).
 
 Usage:
-    python test_schp.py
+    python scripts/test_pytorch.py
+    python scripts/test_pytorch.py --model ./schp-lip-20
+    python scripts/test_pytorch.py --model ./schp-atr-18 --image images/image_0.jpg
 """
 
+import argparse
 import time
 from pathlib import Path
 
@@ -14,8 +17,6 @@ from PIL import Image
 from transformers import AutoImageProcessor, AutoModelForSemanticSegmentation
 
 ROOT = Path(__file__).parent.parent
-MODEL_DIR = str(ROOT / "schp-atr-18")
-IMAGE_PATH = str(ROOT / "images" / "image_0.jpg")
 
 
 def test(model_dir: str, image_path: str | None) -> None:
@@ -70,5 +71,28 @@ def test(model_dir: str, image_path: str | None) -> None:
     print("\nAll checks passed.")
 
 
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(description="Smoke test for an SCHP model.")
+    parser.add_argument(
+        "--model",
+        default=str(ROOT / "schp-atr-18"),
+        help="Path or Hub ID of the model to test (default: ./schp-atr-18)",
+    )
+    parser.add_argument(
+        "--image",
+        default=None,
+        help="Path to an input image. Defaults to images/image_0.jpg if it exists, otherwise uses random noise.",
+    )
+    return parser.parse_args()
+
+
 if __name__ == "__main__":
-    test(MODEL_DIR, IMAGE_PATH)
+    args = parse_args()
+
+    image_path = args.image
+    if image_path is None:
+        default_image = ROOT / "images" / "image_0.jpg"
+        if default_image.exists():
+            image_path = str(default_image)
+
+    test(args.model, image_path)

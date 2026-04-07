@@ -2,8 +2,9 @@
 test_onnx.py — Test the exported SCHP ONNX model on a real image.
 
 Usage:
-    python test_onnx.py
-    python test_onnx.py --image images/image_0.jpg --model onnx/schp-atr-18.onnx
+    python scripts/test_onnx.py
+    python scripts/test_onnx.py --model schp-atr-18/onnx/schp-atr-18.onnx
+    python scripts/test_onnx.py --model schp-atr-18/onnx/schp-atr-18-int8-static.onnx --image images/image_0.jpg
 """
 
 import argparse
@@ -12,12 +13,9 @@ from pathlib import Path
 import numpy as np
 import onnxruntime as ort
 from PIL import Image
-
 from schp.image_processing_schp import SCHPImageProcessor
 
 ROOT = Path(__file__).parent.parent
-ONNX_MODEL = str(ROOT / "onnx" / "schp-atr-18.onnx")
-IMAGE_PATH = str(ROOT / "images" / "image_0.jpg")
 ORT_THREADS = 8
 
 
@@ -115,8 +113,18 @@ def run(image_path: str, model_path: str) -> None:
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--image", default=IMAGE_PATH)
-    parser.add_argument("--model", default=ONNX_MODEL)
+    parser = argparse.ArgumentParser(
+        description="Test an SCHP ONNX model on a real image."
+    )
+    parser.add_argument(
+        "--model",
+        default=str(ROOT / "schp-atr-18" / "onnx" / "schp-atr-18.onnx"),
+        help="Path to the ONNX model file (default: schp-atr-18/onnx/schp-atr-18.onnx)",
+    )
+    parser.add_argument(
+        "--image",
+        default=str(ROOT / "images" / "image_0.jpg"),
+        help="Path to the input image (default: images/image_0.jpg)",
+    )
     args = parser.parse_args()
     run(args.image, args.model)

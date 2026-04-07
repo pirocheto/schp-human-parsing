@@ -3,7 +3,8 @@ test_hub.py — Test the model loaded directly from the HuggingFace Hub.
 
 Usage:
     python scripts/test_hub.py
-    python scripts/test_hub.py --image path/to/image.jpg
+    python scripts/test_hub.py --repo-id pirocheto/schp-lip-20
+    python scripts/test_hub.py --repo-id pirocheto/schp-atr-18 --image images/image_0.jpg
 """
 
 import argparse
@@ -15,16 +16,14 @@ import torch
 from PIL import Image
 from transformers import AutoImageProcessor, AutoModelForSemanticSegmentation
 
-REPO_ID = "pirocheto/schp-atr-18"
 
-
-def test(image_path: str | None) -> None:
-    print(f"Loading model from Hub: {REPO_ID}")
+def test(repo_id: str, image_path: str | None) -> None:
+    print(f"Loading model from Hub: {repo_id}")
     t0 = time.perf_counter()
     model = AutoModelForSemanticSegmentation.from_pretrained(
-        REPO_ID, trust_remote_code=True
+        repo_id, trust_remote_code=True
     )
-    processor = AutoImageProcessor.from_pretrained(REPO_ID, trust_remote_code=True)
+    processor = AutoImageProcessor.from_pretrained(repo_id, trust_remote_code=True)
     model.eval()
     print(f"  loaded in {time.perf_counter() - t0:.1f}s")
 
@@ -68,7 +67,14 @@ def test(image_path: str | None) -> None:
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser(
+        description="Test an SCHP model loaded from the HuggingFace Hub."
+    )
+    parser.add_argument(
+        "--repo-id",
+        default="pirocheto/schp-atr-18",
+        help="HuggingFace Hub repo ID (default: pirocheto/schp-atr-18)",
+    )
     parser.add_argument("--image", default=None, help="Path to an input image")
     args = parser.parse_args()
-    test(args.image)
+    test(args.repo_id, args.image)

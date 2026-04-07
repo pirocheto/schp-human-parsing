@@ -163,11 +163,19 @@ seg_map = logits.argmax(axis=1).squeeze()  # (H, W)
 
 All scripts live in the `scripts/` directory.
 
-### Download checkpoints and images
+### Download checkpoints
 
 ```bash
-python scripts/download_checkpoints.py   # downloads original .pth weights
-python scripts/download_images.py        # downloads sample images
+python scripts/download_checkpoints.py --dataset atr      # ATR checkpoint
+python scripts/download_checkpoints.py --dataset lip      # LIP checkpoint
+python scripts/download_checkpoints.py --dataset pascal   # Pascal checkpoint
+python scripts/download_checkpoints.py --dataset all      # all checkpoints
+```
+
+### Download images
+
+```bash
+python scripts/download_images.py --n 10
 ```
 
 ### Convert an original `.pth` checkpoint
@@ -183,13 +191,19 @@ python scripts/convert_checkpoint.py --dataset pascal --checkpoint checkpoints/e
 ### Test a model
 
 ```bash
-python scripts/test_schp.py
+# PyTorch
+python scripts/test_pytorch.py --model ./schp-atr-18 --image images/image_0.jpg
+
+# ONNX
+python scripts/test_onnx.py --model schp-atr-18/onnx/schp-atr-18-int8-static.onnx --image images/image_0.jpg  
+
+# HuggingFace Hub
+python scripts/test_hub.py --repo-id pirocheto/schp-lip-20
 ```
 
 ### Export to ONNX
 
 ```bash
-python scripts/export_onnx.py
 python scripts/export_onnx.py --model ./schp-lip-20 --output schp-lip-20/onnx/schp-lip-20.onnx
 ```
 
@@ -206,14 +220,13 @@ python scripts/quantize_onnx.py --mode static --calib-images images/ --calib-n 1
 ### Benchmark PyTorch vs ONNX
 
 ```bash
-python scripts/benchmark.py --dataset atr
 python scripts/benchmark.py --dataset lip --image images/image_0.jpg --runs 20
 ```
 
 ### Test ONNX outputs
 
 ```bash
-python scripts/test_onnx.py
+python scripts/test_onnx.py --model schp-atr-18/onnx/schp-atr-18-int8-static.onnx --image images/image_0.jpg
 ```
 
 ### Push to Hugging Face Hub
@@ -246,6 +259,14 @@ Benchmarked on CPU (16-core, `intra_op_num_threads=8`):
 | PyTorch FP32 | ~360 ms | 1× | 256 MB |
 | ONNX FP32 | ~243 ms | 1.5× | 257 MB |
 | ONNX INT8 static | ~189 ms | **1.9×** | **66 MB** |
+
+### Pascal Person Part (512×512 input)
+
+| Backend | Latency | Speedup | Size |
+|---------|---------|---------|------|
+| PyTorch FP32 | ~424 ms | 1× | 255 MB |
+| ONNX FP32 | ~296 ms | 1.44× | 256 MB |
+| ONNX INT8 static | ~218 ms | **1.94×** | **66 MB** |
 
 ---
 
